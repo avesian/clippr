@@ -1,0 +1,2 @@
+# clippr
+local video clipper
