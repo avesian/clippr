@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLIPR — Local Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #1A1A1A;
+      --accent: #FF6B00;
+      --accent-hover: #FF8C2A;
+      --text: #EAEAEA;
+      --muted: #888888;
+      --border: #252525;
+      --font-title: 'Anton', sans-serif;
+      --font-ui: 'Outfit', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 5%;
+      background: rgba(8, 8, 8, 0.8);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--font-title);
+      font-size: 28px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .logo span { color: var(--text); opacity: 0.5; }
+
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .btn-nav {
+      background: var(--surface2);
+      color: var(--text);
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .btn-nav:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── HERO SECTION ─── */
+    .hero {
+      padding: 180px 5% 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at top, #1a1005 0%, var(--bg) 60%);
+    }
+
+    .badge {
+      background: rgba(255,107,0,0.1);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255,107,0,0.2);
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      transition: all 0.2s;
+      box-shadow: 0 8px 24px rgba(255,107,0,0.2);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,107,0,0.4);
+    }
+
+    /* Placeholder for 3D Render / Mockup */
+    .hero-mockup {
+      margin-top: 60px;
+      width: 100%;
+      max-width: 1000px;
+      height: 500px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-mockup::after {
+      content: '🖼️ Insert Minimalist 3D Render or App Mockup Here';
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* ─── FEATURES SECTION ─── */
+    .features {
+      padding: 100px 5%;
+      background: var(--bg);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 60px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px 32px;
+      border-radius: 16px;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-5px); border-color: var(--surface2); }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 24px;
+      display: inline-block;
+      padding: 16px;
+      background: rgba(255,107,0,0.05);
+      border-radius: 12px;
+      color: var(--accent);
+    }
+
+    .card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+    .card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* ─── FAQ SECTION ─── */
+    .faq {
+      padding: 100px 5%;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .faq-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    details {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    summary {
+      padding: 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none; /* Menyembunyikan panah bawaan browser */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    summary::-webkit-details-marker { display: none; } /* Safari support */
+
+    summary:hover {
+      background: var(--surface2);
+    }
+
+    summary::after {
+      content: '+';
+      font-size: 24px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+      line-height: 1;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-content {
+      padding: 0 24px 24px 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 5%;
+      text-align: center;
+      background: var(--bg);
+    }
+
+    .footer-text {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .credit-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.5px;
+    }
+    .credit-title span {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 40px; }
+      .nav-links { display: none; }
+      .hero-mockup { height: 300px; }
+      .hero { padding-top: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="logo">CLI<span>P</span>R</a>
+    <div class="nav-links">
+      <a href="#fitur">Fitur</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="clipr_video_clipper.html" class="btn-nav">Coba Sekarang</a>
+  </nav>
+
+  <section class="hero">
+    <div class="badge">V 1.0 — Tersedia Sekarang</div>
+    <h1>Edit Video Lokal, Cepat, <br><span>Tanpa Upload.</span></h1>
+    <p>Pemotong video client-side yang aman. Sesuaikan rasio, atur kecepatan, dan ekspor clip untuk media sosial langsung dari browser Anda tanpa membuang kuota internet.</p>
+    <a href="clipr_video_clipper.html" class="btn-primary">Buka Web App CLIPR</a>
+    
+    <div class="hero-mockup">
+      <!-- Ganti elemen ini dengan tag <img> berisi render 3D / Mockup UI CLIPR Anda -->
+    </div>
+  </section>
+
+  <section id="fitur" class="features">
+    <h2 class="section-title">Kenapa Menggunakan CLIPR?</h2>
+    <div class="grid">
+      
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>100% Privasi & Aman</h3>
+        <p>Tidak ada video yang diunggah ke server. Semua proses pemotongan dan rendering dieksekusi secara lokal di dalam perangkat Anda.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Format Media Sosial</h3>
+        <p>Potong area spesifik dari video panjang menjadi rasio 9:16 (TikTok/Reels), 4:5 (Instagram), atau 1:1 langsung dengan crop-overlay presisi.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Speed Control</h3>
+        <p>Sesuaikan laju video Anda. Buat potongan slow-motion yang dramatis atau fast-forward untuk konten ringkasan dengan satu klik.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📑</div>
+        <h3>Sistem Antrean (Queue)</h3>
+        <p>Hemat waktu Anda. Tandai hingga 5 segmen berbeda dari satu video, dan ekspor semuanya secara massal secara otomatis.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-container">
+      
+      <details>
+        <summary>Apakah CLIPR menyimpan video saya?</summary>
+        <div class="faq-content">
+          Tidak. CLIPR berjalan sepenuhnya di dalam browser Anda (client-side). Tidak ada satupun file video atau data pribadi Anda yang dikirim maupun disimpan di server kami.
+        </div>
+      </details>
+
+      <details>
+        <summary>Format video apa saja yang bisa diedit?</summary>
+        <div class="faq-content">
+          CLIPR mendukung format video umum yang didukung oleh browser modern, seperti MP4, WebM, dan MOV. Kami merekomendasikan penggunaan Google Chrome atau Microsoft Edge untuk hasil terbaik.
+        </div>
+      </details>
+
+      <details>
+        <summary>Mengapa browser terasa berat saat export?</summary>
+        <div class="faq-content">
+          Karena tidak menggunakan server eksternal, proses rendering sepenuhnya mengandalkan RAM dan prosesor perangkat Anda. Jika memproses video resolusi tinggi (seperti 4K), disarankan untuk menggunakan PC atau laptop dan menutup tab lain yang tidak digunakan.
+        </div>
+      </details>
+
+      <details>
+        <summary>Apakah aplikasi ini gratis untuk digunakan?</summary>
+        <div class="faq-content">
+          Ya, CLIPR versi standar saat ini dapat digunakan sepenuhnya secara gratis tanpa tambahan watermark tersembunyi.
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-text">&copy; 2026 CLIPR. Dibangun dengan fokus pada privasi dan efisiensi. All rights reserved.</p>
+    <p class="credit-title">Developed by <span>Dapur Ide Kreatif</span></p>
+  </footer>
+
+</body>
+</html>
