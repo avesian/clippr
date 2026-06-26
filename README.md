@@ -12,13 +12,5 @@
 ## 🛠 Teknologi
 * **Frontend**: HTML5, CSS3 (Modern Flexbox/Grid), JavaScript (Vanilla).
 * **Core API**: `MediaRecorder` API, `Canvas` API, `Web Audio` API.
-* **Deployment**: Dihosting di [Vercel](https://vercel.com).
+* **Deployment**: Dihosting di https://clipe.netlify.app/
 
-## 📁 Struktur Proyek
-```text
-/
-├── index.html          # Landing Page Promosi
-├── editor/
-│   └── clippr.html     # Aplikasi Utama CLIPR
-├── vercel.json         # Konfigurasi routing Vercel
-└── README.md           # Dokumentasi proyek
